@@ -28,5 +28,18 @@ def validate_email_endpoint():
     except Exception as e:
         return jsonify({"email": email, "error": str(e)}), 500
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--url', help='ACCESS LINK', default=None)
+parser.add_argument('--port', help='PORT NUM', default=None)
+
+args = parser.parse_args()
+
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    if args.url:
+        for rule in list(app.url_map.iter_rules())[1:]:
+                print(str(args.url)+str(rule))
+        print('\n')
+    
+    app.run(debug=True, port=args.port)
